@@ -1,20 +1,32 @@
 require "ostruct"
 
 class PeopleCollectionFactory
-  def initialize(input_data)
-    @input_data = input_data
+  def initialize(people_inputs, deploy_access_inputs)
+    @people_inputs = people_inputs
+    @people_with_deploy_access = production_access_use_names(deploy_access_inputs)
   end
 
   def call
-    input_data.map do |person_hash|
-      build_person(person_hash)
+    @people_inputs.map do |person_hash|
+      build_person(
+        person_hash,
+        deploy_access?(person_hash[:use_name]),
+      )
     end
   end
 
 private
-  attr_reader :input_data
+  def build_person(person_hash, has_production_access)
+    OpenStruct.new(
+      person_hash.merge(production_access: has_production_access)
+    )
+  end
 
-  def build_person(person_hash)
-    OpenStruct.new(person_hash)
+  def production_access_use_names(raw_deploy_access_inputs)
+    raw_deploy_access_inputs.map { |p| p[:use_name] }
+  end
+
+  def deploy_access?(person_use_name)
+    @people_with_deploy_access.include? person_use_name
   end
 end
