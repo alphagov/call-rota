@@ -20,16 +20,24 @@ private
             #{production_access ? "with production access" : ""}!"
     end
     eligible_people.sample.tap do |chosen_person|
-      chosen_people.push chosen_person
+      make_ineligible(team_members(chosen_person.team))
     end
   end
 
-  def available_people(role, production_access)
-    people_with_role_and_access(role, production_access) - chosen_people
+  def team_members(team_name)
+    @people.select { |p| p.team == team_name }
   end
 
-  def chosen_people
-    @chosen_people ||= []
+  def available_people(role, production_access)
+    people_with_role_and_access(role, production_access) - ineligible_people
+  end
+
+  def ineligible_people
+    @ineligible_people ||= []
+  end
+
+  def make_ineligible(people)
+    @ineligible_people = ineligible_people + people
   end
 
   def people_with_role_and_access(role, production_access)
