@@ -5,28 +5,33 @@ class RotaWeekBuilder
 
   def call
     RotaWeek.new(
-      :web_ops => pick_person,
-      :dev => pick_person,
-      :supplemental_dev => pick_person,
+      :web_ops => pick_person("webops"),
+      :dev => pick_person("developer"),
+      :supplemental_dev => pick_person("developer"),
     )
   end
 
 private
 
-  def pick_person
-    raise "No more people to pick!" if available_people.empty?
+  def pick_person(role)
+    people_with_role = available_people(role)
+    raise "No more people to pick for role #{role}!" if people_with_role.empty?
 
-    available_people.sample.tap do |chosen_person|
+    people_with_role.sample.tap do |chosen_person|
       chosen_people.push chosen_person
     end
   end
 
-  def available_people
-    @people - chosen_people
+  def available_people(role)
+    people_with_role(role) - chosen_people
   end
 
   def chosen_people
     @chosen_people ||= []
+  end
+
+  def people_with_role(role)
+    @people.select { |p| p.rota_skill_group == role }
   end
 
 end
