@@ -82,11 +82,10 @@ describe RotaWeekBuilder do
     expect(result.supplemental_dev.rota_skill_group).to eq("developer")
   end
 
-  it "returns at least one developer with production access" do
+  it "returns a primary dev with production access" do
     result = subject.call
-    devs = [result.dev, result.supplemental_dev]
 
-    expect(devs.map(&:production_access)).to include true
+    expect(result.dev.production_access).to be true
   end
 
   context "with two people" do
