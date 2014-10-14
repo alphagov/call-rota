@@ -29,7 +29,7 @@ describe PeopleCollectionFactory do
     ]
   }
 
-  let(:deploy_access_input_data) {
+  let(:production_access_input_data) {
     [
       red_penguin_hash,
     ]
@@ -38,7 +38,7 @@ describe PeopleCollectionFactory do
   subject(:factory) {
     described_class.new(
       people_input_data,
-      deploy_access_input_data
+      production_access_input_data
     )
   }
 
