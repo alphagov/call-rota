@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << File.expand_path("../lib/", File.dirname(__FILE__))
 
-require 'optparse'
+require "optparse"
+require "csv"
+require "call_rota_generator"
+
 options = Hash.new
 
 opt_parse = OptionParser.new do |opts|
@@ -11,28 +14,39 @@ opt_parse = OptionParser.new do |opts|
     options[:people] = file
   end
 
-  opts.on('--production_access', 'Production CSV file') do |file|
+  opts.on('--production_access FILE', 'Production CSV file') do |file|
     options[:production] = file
   end
 
-  opts.on('--output', 'Output CSV file') do |file|
+  opts.on('--output FILE', 'Output CSV file') do |file|
     options[:output] = file
   end
 end.parse!
 
+error_encountered = false
+
 unless options[:people]
   $stderr.puts "Please specify a --people argument with a people CSV file path"
-  exit(1)
+  error_encountered = true
 end
 
 unless options[:production]
   $stderr.puts "Please specify a --production_access argument with a people with production access CSV file path"
-  exit(1)
+  error_encountered = true
 end
 
 unless options[:output]
   $stderr.puts "Please specify a --output argument with an output CSV file path"
-  exit(1)
+  error_encountered = true
 end
+
+rota_week = CallRotaGenerator.new(options).call
+
+CSV.open(options[:output], "w+") do |csv|
+  csv << ["webops","dev","supplemental_dev"]
+  csv << [rota_week.web_ops, rota_week.dev, rota_week.supplemental_dev].map(&:use_name)
+end
+
+exit(1) if error_encountered
 
 exit(0)

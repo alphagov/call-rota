@@ -32,7 +32,7 @@ private
       :headers           => true,
       :header_converters => :symbol,
     )
-    csv.to_a.map {|row| row.to_hash }
+    csv.to_a.map { |row| row.to_hash }
   end
 
   SKILL_GROUPS = {
