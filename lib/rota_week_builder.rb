@@ -47,7 +47,6 @@ private
     end
     result.select { |p| p.rota_skill_group == role }
   end
-
 end
 
 class RotaWeek
