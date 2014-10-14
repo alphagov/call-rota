@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.expand_path("../lib/", File.dirname(__FILE__))
+
+require 'optparse'
+options = Hash.new
+
+opt_parse = OptionParser.new do |opts|
+  opts.banner = "Usage: call_rota [options] output_path"
+
+  opts.on('--people FILE', 'People CSV file') do |file|
+    options[:people] = file
+  end
+
+  opts.on('--production_access', 'Production CSV file') do |file|
+    options[:production] = file
+  end
+
+  opts.on('--output', 'Output CSV file') do |file|
+    options[:output] = file
+  end
+end.parse!
+
+unless options[:people]
+  $stderr.puts "Please specify a --people argument with a people CSV file path"
+  exit(1)
+end
+
+unless options[:production]
+  $stderr.puts "Please specify a --production_access argument with a people with production access CSV file path"
+  exit(1)
+end
+
+unless options[:output]
+  $stderr.puts "Please specify a --output argument with an output CSV file path"
+  exit(1)
+end
+
+exit(0)
