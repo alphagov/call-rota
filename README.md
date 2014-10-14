@@ -29,18 +29,12 @@ following certain rules:
 No external services.
 
 The input format has been designed to match the current data from the Google
-Spreadsheets used at GDS to manage on-call rotas.
+Spreadsheets used at GDS to manage on-call rotas. For examples of the input format, see `spec/fixtures`.
 
 ##Running the application
 
-```ruby
-require 'people_collection_factory'
-require 'rota_week_builder'
-
-#people_inputs and deploy_access_inputs in the format described below
-people = PeopleCollectionFactory.new(people_inputs, deploy_access_inputs)
-
-rota_week = RotaWeekBuilder.new(people).call
+```
+bin/call_rota --people people.csv --production_access production_access.csv --output /tmp/output.csv
 ```
 
 ##Running the test suite
@@ -80,9 +74,6 @@ production access. Each element must follow the below format:
 
 ##Future work
 
-* Add CSV parsing for input data.
-* Add CSV output.
-* Add bin script to run the application.
 * Add rule: no more than 1 tech lead at a time -- a canonical source of who is
   and is not a tech lead does not appear to be available yet.
 * Rotate people fairly: this requires historical knowledge of who has been on
