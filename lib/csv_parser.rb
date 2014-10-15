@@ -1,9 +1,9 @@
 require 'csv'
 
 class CSVParser
-  def initialize(people_string, deploy_access_string)
+  def initialize(people_string, production_access_string)
     @people_string = people_string
-    @deploy_access_string = deploy_access_string
+    @production_access_string = production_access_string
   end
 
   def people_data
@@ -14,8 +14,8 @@ class CSVParser
 
   end
 
-  def deploy_access_data
-    parsed_csv_data(@deploy_access_string).map do |parsed_person|
+  def production_access_data
+    parsed_csv_data(@production_access_string).map do |parsed_person|
       {:use_name => parsed_person.fetch(:use_name)}
     end
   end
@@ -32,7 +32,7 @@ private
       :headers           => true,
       :header_converters => :symbol,
     )
-    csv.to_a.map {|row| row.to_hash }
+    csv.to_a.map { |row| row.to_hash }
   end
 
   SKILL_GROUPS = {

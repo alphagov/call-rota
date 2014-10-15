@@ -1,3 +1,9 @@
+## 0.0.2
+
+This adds a bin script to run call_rota from the command line.
+
+This parses people and production_access CSV files and writes to a specified output file.
+
 ## 0.0.1
 
 This adds a PeopleCollectionFactory responsible for taking in two hashes containing available information about people -- their basic information (including job role), and whether or not they have production access.

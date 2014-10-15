@@ -10,7 +10,7 @@ Full Name,Use Name,Rota Skill Group,Team
 "Fenton, Peter",Peter F,Web Ops,Product Gaps
 EOF
   }
-  let(:deploy_access_input_csv) {
+  let(:production_access_input_csv) {
 <<-EOF
 Full Name,Use Name,Rota Skill Group,Team
 "Doe, Jane",Jane D,Dev,PDU
@@ -46,7 +46,7 @@ EOF
     ]
   }
 
-  let(:desired_deploy_access_data) {
+  let(:desired_production_access_data) {
     [
       {
         use_name: "Jane D",
@@ -54,7 +54,7 @@ EOF
     ]
   }
 
-  subject(:parser) { described_class.new(people_input_csv, deploy_access_input_csv) }
+  subject(:parser) { described_class.new(people_input_csv, production_access_input_csv) }
 
   it "correctly normalizes the rota_skill_group" do
     people = parser.people_data
@@ -76,7 +76,7 @@ EOF
     expect(parser.people_data).to eq(desired_people_data)
   end
 
-  it "returns correct deploy access data" do
-    expect(parser.deploy_access_data).to eq(desired_deploy_access_data)
+  it "returns correct production access data" do
+    expect(parser.production_access_data).to eq(desired_production_access_data)
   end
 end

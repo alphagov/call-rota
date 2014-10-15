@@ -12,7 +12,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Tom Russell", "Camille Baldock"]
   s.homepage    = "https://github.com/alphagov/call-rota"
   s.email       = 'bradley.wright@digital.cabinet-office.gov.uk'
-  s.files       = Dir["{app,lib}/**/*"] + ["LICENSE", "README.md"]
+  s.files       = Dir["{app,lib,bin}/**/*"] + ["LICENSE", "README.md", "CHANGELOG.md"]
+  s.executables = ["call_rota"]
+  s.bindir      = "bin"
   s.test_files    = Dir["{spec}/**/*"]
   s.require_paths = ["lib"]
   s.license       = 'MIT'
